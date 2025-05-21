@@ -1,0 +1,2 @@
+G:/flutter_homepractice/to_do_with_firebase/android/app/.cxx/Debug/1p4zf5y4/x86_64/CMakeFiles/edit_cache.dir
+G:/flutter_homepractice/to_do_with_firebase/android/app/.cxx/Debug/1p4zf5y4/x86_64/CMakeFiles/rebuild_cache.dir
