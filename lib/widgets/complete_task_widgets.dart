@@ -33,9 +33,9 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
           List<Todo> todos=snapshot.data!;
           print('length:${snapshot.data!}');
           if (todos.isEmpty) {
-            return const Center(child: Text("No pending tasks.",style: TextStyle(
+            return const Center(child: Text("No Completed tasks.",style: TextStyle(
                 color: Colors.white
-            ),));
+            ),),);
           }
           return ListView.builder(
             shrinkWrap: true,
@@ -49,7 +49,7 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                 margin: const EdgeInsets.all(10),
                 //padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white54,
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Slidable(

@@ -64,11 +64,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ElevatedButton(
             onPressed: (){
-              if(todo==null){
-                databaseService.addTodoTask(titleController.text, descriptionController.text);
+              String title = titleController.text.trim();
+              String description = descriptionController.text.trim();
+
+              if (title.isEmpty || description.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Title and description cannot be empty'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
               }
-              else{
-                databaseService.updateTodo(todo.id, titleController.text, descriptionController.text);
+
+              if (todo == null) {
+                databaseService.addTodoTask(title, description);
+              } else {
+                databaseService.updateTodo(todo.id, title, description);
               }
               Navigator.pop(context);
 
