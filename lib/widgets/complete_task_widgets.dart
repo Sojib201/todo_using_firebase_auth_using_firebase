@@ -22,6 +22,12 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
     super.initState();
     uid=FirebaseAuth.instance.currentUser!.uid;
   }
+  String formatTime(DateTime dt) {
+    final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);
+    final minute = dt.minute.toString().padLeft(2, '0');
+    final amPm = dt.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $amPm';
+  }
 
 
   @override
@@ -33,9 +39,15 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
           List<Todo> todos=snapshot.data!;
           print('length:${snapshot.data!}');
           if (todos.isEmpty) {
-            return const Center(child: Text("No Completed tasks.",style: TextStyle(
-                color: Colors.white
-            ),),);
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: const Center(
+                child: Text(
+                  "No Completed tasks.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            );
           }
           return ListView.builder(
             shrinkWrap: true,
@@ -49,7 +61,7 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                 margin: const EdgeInsets.all(10),
                 //padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: Colors.white54,
+                    color: Colors.grey.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Slidable(
@@ -67,9 +79,11 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                   ]),
 
                   child: ListTile(
-                    title: Text(todo.title,style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold,decoration: TextDecoration.lineThrough),),
-                    subtitle: Text(todo.description,style: const TextStyle(decoration: TextDecoration.lineThrough),),
-                    trailing: Text('${dt.day}/${dt.month}/${dt.year}'),
+                    title: Text(todo.title,style:  TextStyle(fontSize: 22,color: Colors.white.withOpacity(0.9),decoration: TextDecoration.lineThrough),),
+                    subtitle: Text(todo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),decoration: TextDecoration.lineThrough),),
+                    trailing: Text(
+                      '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                      style:  TextStyle(color: Colors.white.withOpacity(0.9)),),
                   ),
                 ),
               );

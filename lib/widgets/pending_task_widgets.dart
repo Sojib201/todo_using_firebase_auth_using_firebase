@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:to_do_with_firebase/database_service.dart';
 
+import '../pending_details_screen.dart';
 import '../todo_model.dart';
 
 class PendingTaskWidgets extends StatefulWidget {
@@ -13,7 +14,6 @@ class PendingTaskWidgets extends StatefulWidget {
 }
 
 class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
-  User? user=FirebaseAuth.instance.currentUser;
   late String uid;
   final DatabaseService databaseService=DatabaseService();
 
@@ -98,7 +98,27 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
     },);
 
   }
-  
+
+  String formatTime(DateTime dt) {
+    final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);
+    final minute = dt.minute.toString().padLeft(2, '0');
+    final amPm = dt.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $amPm';
+  }
+  String _getFormattedDateTime(DateTime dt) {
+    final now = DateTime.now();
+    final difference = now.difference(dt);
+
+    if (difference.inHours < 24) {
+      // Show time only
+      return formatTime(dt);
+    } else {
+      // Show full date
+      return '${dt.day}/${dt.month}/${dt.year}';
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Todo>>(
@@ -108,9 +128,16 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
           List<Todo> todos=snapshot.data!;
           print('length:${snapshot.data!}');
           if (todos.isEmpty) {
-            return const Center(child: Text("No pending tasks.",style: TextStyle(
-              color: Colors.white
-            ),));
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: const Center(
+                child: Text(
+                  "No pending tasks.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            );
+
           }
           return ListView.builder(
             shrinkWrap: true,
@@ -120,50 +147,74 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
               Todo todo=todos[index];
               print('todo length:$todo');
               final DateTime dt=todo.timeStamp.toDate();
-              return Container(
-                margin: const EdgeInsets.all(10),
-                //padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Slidable(
-                  key: ValueKey(todo.id),
-                  endActionPane: ActionPane(motion: const DrawerMotion(), children: [
-                    SlidableAction(
-                      onPressed: (context){
-                      databaseService.updateTodoStatus(todo.id,true);
-                    },
-                    icon: Icons.done,
-                      label: 'Mark',
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
+              return GestureDetector(
+                onTap: (){
+                  print('xxxx');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TaskDetailScreen(todo: todo),
                     ),
-                  ]),
-                  startActionPane: ActionPane(motion: const DrawerMotion(), children: [
-                    SlidableAction(
-                      onPressed: (context){
-                        showTaskDialog(context,todo: todo);
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white12.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(18)
+                  ),
+                  child: Slidable(
+                    key: ValueKey(todo.id),
+                    endActionPane: ActionPane(motion: const DrawerMotion(), children: [
+                      SlidableAction(
+                        onPressed: (context){
+                        databaseService.updateTodoStatus(todo.id,true);
                       },
-                      icon: Icons.edit,
-                      label: 'Edit',
-                      backgroundColor: Colors.amber,
-                      foregroundColor: Colors.white,
+                      icon: Icons.done,
+                        label: 'Mark',
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                    ]),
+                    startActionPane: ActionPane(motion: const DrawerMotion(), children: [
+                      SlidableAction(
+                        onPressed: (context){
+                          showTaskDialog(context,todo: todo);
+                        },
+                        icon: Icons.edit,
+                        label: 'Edit',
+                        backgroundColor: Colors.amber,
+                        foregroundColor: Colors.white,
+                      ),
+                      SlidableAction(
+                        onPressed: (context) async {
+                          await databaseService.deleteTodo(todo.id);
+                        },
+                        icon: Icons.delete,
+                        label: 'Delete',
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                    ]),
+                    child: ListTile(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(todo.title,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8)),),
+                          const SizedBox(height: 10,),
+                          Text(
+                            // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                            _getFormattedDateTime(dt),
+                            style: TextStyle(color: Colors.white.withOpacity(0.5)),),
+                        ],
+                      ),
+                      //subtitle: Text(maxLines:2,todo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),),),
+                      // subtitle: Text(
+                      //   // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                      //   _getFormattedDateTime(dt),
+                      //   style: TextStyle(color: Colors.white.withOpacity(0.8)),),
                     ),
-                    SlidableAction(
-                      onPressed: (context) async {
-                      await  databaseService.deleteTodo(todo.id);
-                      },
-                      icon: Icons.delete,
-                      label: 'Delete',
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                    ),
-                  ]),
-                  child: ListTile(
-                    title: Text(todo.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-                    subtitle: Text(todo.description),
-                    trailing: Text('${dt.day}/${dt.month}/${dt.year}'),
                   ),
                 ),
               );

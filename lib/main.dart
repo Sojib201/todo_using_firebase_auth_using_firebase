@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:to_do_with_firebase/home_screen.dart';
 import 'package:to_do_with_firebase/login_screen.dart';
 import 'package:to_do_with_firebase/registration_screen.dart';
+import 'package:to_do_with_firebase/splash_screen.dart';
 
-import 'auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
-      home: auth.currentUser!=null?HomeScreen():LoginScreen(),
+      //home: auth.currentUser!=null?HomeScreen():LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }

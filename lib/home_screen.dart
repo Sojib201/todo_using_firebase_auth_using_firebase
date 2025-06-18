@@ -13,7 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-   int buttonIndex=0;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  int buttonIndex=0;
    final widgets=[
      //Pending todos
      const PendingTaskWidgets(),
@@ -103,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+
         backgroundColor: Colors.black,
-        title: Text('Home',style: TextStyle(
+        title:  const Text('Todo List',style: TextStyle(
           color: Colors.white,
           fontSize: 22
         ),),
@@ -127,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 InkWell(
-            borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10),
                   onTap: (){
                     setState(() {
                       buttonIndex=0;
@@ -143,8 +146,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child:  Center(
                         child: Text('Pending',style: TextStyle(
                          fontWeight: FontWeight.w500,
-                          fontSize:  20,
-                          color:  buttonIndex==0?Colors.white:Colors.black
+                          fontSize: 20,
+                          color: buttonIndex==0?Colors.white:Colors.black
                         ),),
                       )),
                 ),
@@ -165,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child:  Center(
                         child: Text('Completed',style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize:  20,
+                            fontSize: 20,
                             color:  buttonIndex==1?Colors.white:Colors.black
                         ),),
                       )),
@@ -178,9 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor:Colors.grey.withOpacity(0.2),
+        onPressed: (){
         showTaskDialog(context );
-      },child: Icon(Icons.add),),
+        },
+        child: const Icon(Icons.add,color: Colors.blue,),),
     );
   }
 }
