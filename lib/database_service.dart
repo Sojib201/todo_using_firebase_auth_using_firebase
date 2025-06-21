@@ -111,20 +111,11 @@ class DatabaseService {
 //     return await todoCollection.doc(id).delete();
 //   }
   Future<void> deleteTodo(String id) async {
-    if (user == null) {
-      print('No user logged in');
-      return;
-    }
-
     final docRef = todoCollection.doc(id);
     final docSnapshot = await docRef.get();
 
-    if (!docSnapshot.exists) {
-      print('Document with id $id does not exist');
-      return;
-    }
-
     final data = docSnapshot.data() as Map<String, dynamic>;
+    print('data:::$data');
 
     try {
       // Step 1: Add to deleted_todos
@@ -138,7 +129,6 @@ class DatabaseService {
 
       // Step 2: Delete from original todos
       await docRef.delete();
-      print('Todo deleted and moved to deleted_todos');
     } catch (e) {
       print('Error deleting todo: $e');
     }
@@ -185,18 +175,6 @@ class DatabaseService {
         .map(todoListFromSnapshot);
   }
 
-  //get deleted todos
-  Stream<List<DeletedTodo>> get deletedTodos {
-    return FirebaseFirestore.instance
-        .collection('deleted_todos')
-        .where('uid', isEqualTo: user!.uid)
-        .orderBy('deletedAt', descending: true)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => DeletedTodo.fromDoc(doc)).toList());
-  }
-
-
-
   List<Todo> todoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Todo(
@@ -205,6 +183,27 @@ class DatabaseService {
           description: doc['description'] ?? '',
           completed: doc['completed'] ?? false,
           timeStamp: doc['createdAt'] ?? '');
+    }).toList();
+  }
+
+  //get deleted todos
+  Stream<List<DeletedTodo>> get deletedTodos {
+    return FirebaseFirestore.instance
+        .collection('deleted_todos')
+        .where('uid', isEqualTo: user!.uid)
+        .orderBy('deletedAt', descending: true)
+        .snapshots()
+        .map(deletedTodoListFromSnapshot);
+  }
+
+  List<DeletedTodo> deletedTodoListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return DeletedTodo(
+          id: doc.id,
+          title: doc['title'] ?? '',
+          description: doc['description'] ?? '',
+          completed: doc['completed'] ?? false,
+          timeStamp: doc['deletedAt'] ?? '');
     }).toList();
   }
 }

@@ -165,30 +165,45 @@ class _TodoTabState extends State<TodoTab> {
           ),
         ],
       ),
-      floatingActionButton: Row(
+      floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+
+
+          FloatingActionButton.large(
+            heroTag: 'recycleBinBtn',
+            shape: const CircleBorder(),
+            backgroundColor: Colors.grey.withOpacity(0.2),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RecycleBinScreen()),
+              );
+            },
+            tooltip: 'Recently Deleted',
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.auto_delete_sharp, color: Colors.red, size: 20,),
+                  Text('Recently Deleted',maxLines:2,style: TextStyle(color: Colors.white,fontSize: 6),),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
           FloatingActionButton(
-            heroTag: 'addTaskBtn', // 👈 unique hero tag
+            heroTag: 'addTaskBtn',
             shape: const CircleBorder(),
             backgroundColor: Colors.grey.withOpacity(0.2),
             onPressed: () {
               showTaskDialog(context);
             },
             child: const Icon(Icons.add, color: Colors.blue, size: 36),
-          ),
-          const SizedBox(width: 10),
-          FloatingActionButton(
-            heroTag: 'recycleBinBtn', // 👈 unique hero tag
-            shape: const CircleBorder(),
-            backgroundColor: Colors.grey.withOpacity(0.2),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => RecycleBinScreen()),
-              );
-            },
-            child: const Icon(Icons.auto_delete_sharp, color: Colors.red, size: 36),
           ),
         ],
       ),
