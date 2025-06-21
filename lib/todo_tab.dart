@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:to_do_with_firebase/auth_service.dart';
 import 'package:to_do_with_firebase/database_service.dart';
 import 'package:to_do_with_firebase/login_screen.dart';
+import 'package:to_do_with_firebase/recycle_bin_screen.dart';
 import 'package:to_do_with_firebase/todo_model.dart';
 import 'package:to_do_with_firebase/widgets/complete_task_widgets.dart';
 import 'package:to_do_with_firebase/widgets/pending_task_widgets.dart';
@@ -164,13 +165,34 @@ class _TodoTabState extends State<TodoTab> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor:Colors.grey.withOpacity(0.2),
-        onPressed: (){
-          showTaskDialog(context );
-        },
-        child: const Icon(Icons.add,color: Colors.blue,size: 36,),),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            heroTag: 'addTaskBtn', // 👈 unique hero tag
+            shape: const CircleBorder(),
+            backgroundColor: Colors.grey.withOpacity(0.2),
+            onPressed: () {
+              showTaskDialog(context);
+            },
+            child: const Icon(Icons.add, color: Colors.blue, size: 36),
+          ),
+          const SizedBox(width: 10),
+          FloatingActionButton(
+            heroTag: 'recycleBinBtn', // 👈 unique hero tag
+            shape: const CircleBorder(),
+            backgroundColor: Colors.grey.withOpacity(0.2),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => RecycleBinScreen()),
+              );
+            },
+            child: const Icon(Icons.auto_delete_sharp, color: Colors.red, size: 36),
+          ),
+        ],
+      ),
+
     );
   }
 }

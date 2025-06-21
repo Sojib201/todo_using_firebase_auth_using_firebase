@@ -59,17 +59,27 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
               final DateTime dt=todo.timeStamp.toDate();
               return Container(
                 margin: const EdgeInsets.all(10),
-                //padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Slidable(
                   key: ValueKey(todo.id),
+                  startActionPane: ActionPane(motion: const DrawerMotion(), children: [
+                    SlidableAction(
+                      onPressed: (context){
+                        databaseService.updateTodoStatus(todo.id,false);
+                      },
+                      icon: Icons.done,
+                      label: 'Mark as Unread',
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                    ),
+                  ]),
                   endActionPane: ActionPane(motion: const DrawerMotion(), children: [
                     SlidableAction(
                       onPressed: (context) async {
-                        await  databaseService.deleteTodo(todo.id);
+                        await databaseService.deleteTodo(todo.id);
                       },
                       icon: Icons.delete,
                       label: 'Delete',

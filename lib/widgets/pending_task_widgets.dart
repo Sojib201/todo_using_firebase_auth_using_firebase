@@ -166,34 +166,38 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                   ),
                   child: Slidable(
                     key: ValueKey(todo.id),
-                    endActionPane: ActionPane(motion: const DrawerMotion(), children: [
+                    startActionPane: ActionPane(
+                        motion: const DrawerMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (context){
+                              showTaskDialog(context,todo: todo);
+                            },
+                            icon: Icons.edit,
+                            label: 'Edit',
+                            backgroundColor: Colors.amber,
+                            foregroundColor: Colors.white,
+                          ),
+                          SlidableAction(
+                            onPressed: (context) async {
+                              await databaseService.deleteTodo(todo.id);
+                            },
+                            icon: Icons.delete,
+                            label: 'Delete',
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                          ),
+                        ]),
+                    endActionPane: ActionPane(
+                        motion: const DrawerMotion(),
+                        children: [
                       SlidableAction(
-                        onPressed: (context){
-                        databaseService.updateTodoStatus(todo.id,true);
-                      },
-                      icon: Icons.done,
+                        onPressed: (context) {
+                          databaseService.updateTodoStatus(todo.id, true);
+                        },
+                        icon: Icons.done,
                         label: 'Mark',
                         backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
-                    ]),
-                    startActionPane: ActionPane(motion: const DrawerMotion(), children: [
-                      SlidableAction(
-                        onPressed: (context){
-                          showTaskDialog(context,todo: todo);
-                        },
-                        icon: Icons.edit,
-                        label: 'Edit',
-                        backgroundColor: Colors.amber,
-                        foregroundColor: Colors.white,
-                      ),
-                      SlidableAction(
-                        onPressed: (context) async {
-                          await databaseService.deleteTodo(todo.id);
-                        },
-                        icon: Icons.delete,
-                        label: 'Delete',
-                        backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                       ),
                     ]),

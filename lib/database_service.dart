@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:to_do_with_firebase/todo_model.dart';
 
+import 'deleted_todo_model.dart';
 import 'note_model.dart';
 
 
@@ -106,9 +107,63 @@ class DatabaseService {
   }
 
 //Delete todo
+//   Future<void> deleteTodo(String id) async {
+//     return await todoCollection.doc(id).delete();
+//   }
   Future<void> deleteTodo(String id) async {
-    return await todoCollection.doc(id).delete();
+    if (user == null) {
+      print('No user logged in');
+      return;
+    }
+
+    final docRef = todoCollection.doc(id);
+    final docSnapshot = await docRef.get();
+
+    if (!docSnapshot.exists) {
+      print('Document with id $id does not exist');
+      return;
+    }
+
+    final data = docSnapshot.data() as Map<String, dynamic>;
+
+    try {
+      // Step 1: Add to deleted_todos
+      await FirebaseFirestore.instance.collection('deleted_todos').add({
+        'uid': user!.uid,
+        'title': data['title'],
+        'description': data['description'],
+        'completed': data['completed'],
+        'deletedAt': FieldValue.serverTimestamp(),
+      });
+
+      // Step 2: Delete from original todos
+      await docRef.delete();
+      print('Todo deleted and moved to deleted_todos');
+    } catch (e) {
+      print('Error deleting todo: $e');
+    }
   }
+
+// Restore todo from deleted_todos to todos collection
+  Future<void> restoreDeletedTodo(DeletedTodo todo) async {
+    // Add back to todos
+    await todoCollection.add({
+      'uid': user!.uid,
+      'title': todo.title,
+      'description': todo.description,
+      'completed': todo.completed,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    // Delete from deleted_todos
+    await FirebaseFirestore.instance.collection('deleted_todos').doc(todo.id).delete();
+  }
+
+// Permanently delete todo from deleted_todos
+  Future<void> permanentlyDeleteTodo(String id) async {
+    await FirebaseFirestore.instance.collection('deleted_todos').doc(id).delete();
+  }
+
 
 //get pending todos
   Stream<List<Todo>> get pendingTodos {
@@ -129,6 +184,18 @@ class DatabaseService {
         .snapshots()
         .map(todoListFromSnapshot);
   }
+
+  //get deleted todos
+  Stream<List<DeletedTodo>> get deletedTodos {
+    return FirebaseFirestore.instance
+        .collection('deleted_todos')
+        .where('uid', isEqualTo: user!.uid)
+        .orderBy('deletedAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => DeletedTodo.fromDoc(doc)).toList());
+  }
+
+
 
   List<Todo> todoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
