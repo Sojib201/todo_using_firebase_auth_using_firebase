@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:to_do_with_firebase/auth_service.dart';
 import 'package:to_do_with_firebase/database_service.dart';
 import 'package:to_do_with_firebase/login_screen.dart';
+import 'package:to_do_with_firebase/note_model.dart';
 import 'package:to_do_with_firebase/pending_note_widget.dart';
-import 'package:to_do_with_firebase/todo_model.dart';
-import 'package:to_do_with_firebase/widgets/complete_task_widgets.dart';
-import 'package:to_do_with_firebase/widgets/pending_task_widgets.dart';
+
 
 class NotesTab extends StatefulWidget {
   @override
@@ -16,22 +15,16 @@ class NotesTab extends StatefulWidget {
 class _NotesTabState extends State<NotesTab> {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  int buttonIndex=0;
-   final widgets=[
-     //Pending todos
-     const PendingNoteWidgets(),
-   ];
-
-   void showTaskDialog(BuildContext context, {Todo? todo}){
-     TextEditingController titleController=TextEditingController(text: todo?.title);
-     TextEditingController descriptionController=TextEditingController(text: todo?.description);
+   void showTaskDialog(BuildContext context, {Note? note}){
+     TextEditingController titleController=TextEditingController(text: note?.title);
+     TextEditingController descriptionController=TextEditingController(text: note?.description);
 
      DatabaseService databaseService=DatabaseService();
     showDialog(context: context, builder: (context) {
       return AlertDialog(
         title: Text(
-            todo==null?'Add Task': 'Edit Task',
-          style: TextStyle(fontWeight: FontWeight.w500),
+          note==null?'Add Notes': 'Edit Notes',
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
         content: SingleChildScrollView(
           child:SizedBox(
@@ -40,15 +33,15 @@ class _NotesTabState extends State<NotesTab> {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Title'),
                     border: OutlineInputBorder()
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 TextField(
                   controller: descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text('Decription'),
                     border: OutlineInputBorder()
                   ),
@@ -61,7 +54,7 @@ class _NotesTabState extends State<NotesTab> {
           TextButton(
             onPressed: (){
             Navigator.pop(context);
-          }, child: Text('Cancel'),
+          }, child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: (){
@@ -78,10 +71,10 @@ class _NotesTabState extends State<NotesTab> {
                 return;
               }
 
-              if (todo == null) {
+              if (note == null) {
                 databaseService.addNote(title, description);
               } else {
-                databaseService.updateNote(todo.id, title, description);
+                databaseService.updateNote(note.id, title, description);
               }
               Navigator.pop(context);
 
@@ -90,7 +83,7 @@ class _NotesTabState extends State<NotesTab> {
               backgroundColor: Colors.indigo,
               foregroundColor: Colors.white,
             ),
-            child: Text(todo==null?'Add':'Update')
+            child: Text(note==null?'Add':'Update')
           ),
         ],
       );
@@ -103,30 +96,11 @@ class _NotesTabState extends State<NotesTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-
-        backgroundColor: Colors.black,
-        title:  const Text('Notes',style: TextStyle(
-          color: Colors.white,
-          fontSize: 22
-        ),),
-        //centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await AuthService().signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-            },
-            icon: Icon(Icons.logout,color: Colors.white,),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 20,),
-            PendingTaskWidgets()
-
+            SizedBox(height: 20,),
+            PendingNoteWidgets()
           ],
         ),
       ),
@@ -136,7 +110,7 @@ class _NotesTabState extends State<NotesTab> {
         onPressed: (){
         showTaskDialog(context );
         },
-        child: const Icon(Icons.add,color: Colors.blue,),),
+        child: const Icon(Icons.add,color: Colors.blue,size: 36,),),
     );
   }
 }

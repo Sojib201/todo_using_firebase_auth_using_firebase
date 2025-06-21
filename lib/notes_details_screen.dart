@@ -30,7 +30,7 @@ class _NotesDetailScreenState extends State<NotesDetailScreen> {
 
     if (title != widget.note.title || desc != widget.note.description)
     {
-      _databaseService.updateTodo(widget.note.id, title, desc);
+      _databaseService.updateNote(widget.note.id, title, desc);
 
     }
     titleController.dispose();
@@ -78,7 +78,7 @@ class _NotesDetailScreenState extends State<NotesDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Todo Details',style: TextStyle(color: Colors.white),),
+        title: const Text('Note Details',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.black,
         iconTheme: const IconThemeData(color: Colors.white),
       ),

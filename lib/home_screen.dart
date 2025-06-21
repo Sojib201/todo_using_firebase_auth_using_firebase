@@ -195,6 +195,8 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_with_firebase/todo_tab.dart';
 
+import 'auth_service.dart';
+import 'login_screen.dart';
 import 'notes_tab.dart';
 
 
@@ -214,6 +216,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            _currentIndex==0?'Notes':'Todo',
+            style: const TextStyle(
+            color: Colors.white,
+            fontSize: 22
+          ),),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await AuthService().signOut();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+              },
+              icon: const Icon(Icons.logout,color: Colors.white,),
+            ),
+          ],
+        ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -228,11 +249,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.note),
+            icon: Icon(Icons.sticky_note_2_outlined),
             label: 'Notes',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline),
+            icon: Icon(Icons.check_circle),
             label: 'Todo',
           ),
         ],

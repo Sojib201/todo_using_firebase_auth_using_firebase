@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:to_do_with_firebase/database_service.dart';
 
-import '../pending_details_screen.dart';
-import '../todo_model.dart';
 import 'note_model.dart';
 import 'notes_details_screen.dart';
 

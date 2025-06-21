@@ -32,7 +32,7 @@ class _TodoTabState extends State<TodoTab> {
       return AlertDialog(
         title: Text(
           todo==null?'Add Task': 'Edit Task',
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
         content: SingleChildScrollView(
           child:SizedBox(
@@ -41,15 +41,15 @@ class _TodoTabState extends State<TodoTab> {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       label: Text('Title'),
                       border: OutlineInputBorder()
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 TextField(
                   controller: descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       label: Text('Decription'),
                       border: OutlineInputBorder()
                   ),
@@ -62,7 +62,7 @@ class _TodoTabState extends State<TodoTab> {
           TextButton(
             onPressed: (){
               Navigator.pop(context);
-            }, child: Text('Cancel'),
+            }, child: const Text('Cancel'),
           ),
           ElevatedButton(
               onPressed: (){
@@ -104,82 +104,65 @@ class _TodoTabState extends State<TodoTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-
-        backgroundColor: Colors.black,
-        title:  const Text('Todo List',style: TextStyle(
-            color: Colors.white,
-            fontSize: 22
-        ),),
-        //centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await AuthService().signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-            },
-            icon: Icon(Icons.logout,color: Colors.white,),
+      body: Column(
+        children: [
+          const SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: (){
+                  setState(() {
+                    buttonIndex=0;
+                  });
+                },
+                child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width/2.2,
+                    decoration: BoxDecoration(
+                        color: buttonIndex==0?Colors.indigo:Colors.white,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child:  Center(
+                      child: Text('Pending',style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: buttonIndex==0?Colors.white:Colors.black
+                      ),),
+                    )),
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: (){
+                  setState(() {
+                    buttonIndex=1;
+                  });
+                },
+                child: Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width/2.2,
+                    decoration: BoxDecoration(
+                        color: buttonIndex==1?Colors.indigo:Colors.white,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child:  Center(
+                      child: Text('Completed',style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color:  buttonIndex==1?Colors.white:Colors.black
+                      ),),
+                    )),
+              )
+            ],
+          ),
+          const SizedBox(height: 10,),
+          Expanded(
+            child: SingleChildScrollView(
+                  child: widgets[buttonIndex]
+              ),
           ),
         ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: (){
-                    setState(() {
-                      buttonIndex=0;
-                    });
-                  },
-                  child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width/2.2,
-                      decoration: BoxDecoration(
-                          color: buttonIndex==0?Colors.indigo:Colors.white,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child:  Center(
-                        child: Text('Pending',style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: buttonIndex==0?Colors.white:Colors.black
-                        ),),
-                      )),
-                ),
-                InkWell(
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: (){
-                    setState(() {
-                      buttonIndex=1;
-                    });
-                  },
-                  child: Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width/2.2,
-                      decoration: BoxDecoration(
-                          color: buttonIndex==1?Colors.indigo:Colors.white,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child:  Center(
-                        child: Text('Completed',style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color:  buttonIndex==1?Colors.white:Colors.black
-                        ),),
-                      )),
-                )
-              ],
-            ),
-            const SizedBox(height: 10,),
-            widgets[buttonIndex],
-
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
@@ -187,7 +170,7 @@ class _TodoTabState extends State<TodoTab> {
         onPressed: (){
           showTaskDialog(context );
         },
-        child: const Icon(Icons.add,color: Colors.blue,),),
+        child: const Icon(Icons.add,color: Colors.blue,size: 36,),),
     );
   }
 }
