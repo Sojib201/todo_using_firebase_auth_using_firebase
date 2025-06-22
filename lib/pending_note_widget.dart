@@ -161,22 +161,25 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                      color: Colors.white12.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(18)
+                    color: const Color(0xFF1E1E1E),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.8),
+                        offset: const Offset(6, 6),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.6),
+                        offset: const Offset(-6, -6),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
                   child: Slidable(
                     key: ValueKey(note.id),
-                    endActionPane: ActionPane(motion: const DrawerMotion(), children: [
-                      SlidableAction(
-                        onPressed: (context){
-                          databaseService.updateNoteStatus(note.id,true);
-                        },
-                        icon: Icons.done,
-                        label: 'Mark',
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
-                    ]),
                     startActionPane: ActionPane(motion: const DrawerMotion(), children: [
                       SlidableAction(
                         onPressed: (context){
@@ -187,6 +190,9 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                         backgroundColor: Colors.amber,
                         foregroundColor: Colors.white,
                       ),
+
+                    ]),
+                    endActionPane: ActionPane(motion: const DrawerMotion(), children: [
                       SlidableAction(
                         onPressed: (context) async {
                           await databaseService.deleteNote(note.id);
@@ -198,6 +204,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                       ),
                     ]),
                     child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

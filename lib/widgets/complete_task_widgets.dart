@@ -120,7 +120,7 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(todo.title,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8)),),
+                        Text(todo.title,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8),decoration: TextDecoration.lineThrough),),
                         const SizedBox(height: 10,),
                         Text(
                           // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',

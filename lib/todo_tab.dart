@@ -144,7 +144,8 @@ class _TodoTabState extends State<TodoTab> {
                         width: screenWidth * 0.45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: const Color(0xFF5A6AFF),
+                          //color: const Color(0xFF5A6AFF),
+                          color:  Colors.green,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.blueAccent.withOpacity(0.2),
@@ -240,7 +241,7 @@ class _TodoTabState extends State<TodoTab> {
                 MaterialPageRoute(builder: (_) => const RecycleBinScreen()),
               );
             },
-            child:  Center(
+            child:  const Center(
               child: Icon(
                 Icons.auto_delete_sharp,
                 color: Colors.redAccent,
