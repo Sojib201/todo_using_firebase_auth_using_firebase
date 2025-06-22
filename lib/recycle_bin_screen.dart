@@ -122,37 +122,35 @@ class _RecycleBinScreenState extends State<RecycleBinScreen> {
                 final DateTime dt=deletedTodo.timeStamp.toDate();
                 return Container(
                   margin: const EdgeInsets.all(10),
-                  child: Material(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                    child: ListTile(
-                      title: Text(
-                        deletedTodo.title,
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white.withOpacity(0.9),
-                          decoration: TextDecoration.lineThrough,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      deletedTodo.title,
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                  subtitle: Text(deletedTodo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7)),),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.restore, color: Colors.green),
+                          onPressed: () async {
+                            await databaseService.restoreDeletedTodo(deletedTodo);
+                          },
                         ),
-                      ),
-                    subtitle: Text(deletedTodo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),decoration: TextDecoration.lineThrough),),
-
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.restore, color: Colors.green),
-                            onPressed: () async {
-                              await databaseService.restoreDeletedTodo(deletedTodo);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete_forever, color: Colors.red),
-                            onPressed: () async {
-                              await databaseService.permanentlyDeleteTodo(deletedTodo.id);
-                            },
-                          ),
-                        ],
-                      ),
+                        IconButton(
+                          icon: const Icon(Icons.delete_forever, color: Colors.red),
+                          onPressed: () async {
+                            await databaseService.permanentlyDeleteTodo(deletedTodo.id);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 );
