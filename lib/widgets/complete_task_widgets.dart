@@ -71,8 +71,8 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
               print('todo length:$todo');
               final DateTime dt=todo.timeStamp.toDate();
               return Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.all(6),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 decoration: BoxDecoration(
                   color: const Color(0xFF101010),
                   borderRadius: BorderRadius.circular(20),
@@ -99,7 +99,7 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                         databaseService.updateTodoStatus(todo.id,false);
                       },
                       icon: Icons.done,
-                      label: 'Mark as Unread',
+                      label: 'Mark as Incomplete',
                       backgroundColor: Colors.yellowAccent,
                       foregroundColor: Colors.black,
                     ),

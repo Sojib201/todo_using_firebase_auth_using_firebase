@@ -110,10 +110,8 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
     final difference = now.difference(dt);
 
     if (difference.inHours < 24) {
-      // Show time only
       return formatTime(dt);
     } else {
-      // Show full date
       return '${dt.day}/${dt.month}/${dt.year}';
     }
   }
@@ -159,8 +157,8 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                   );
                 },
                 child: Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
                     color: const Color(0xFF101010),
                     borderRadius: BorderRadius.circular(20),
@@ -184,15 +182,29 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                     startActionPane: ActionPane(
                         motion: const DrawerMotion(),
                         children: [
+                          // SlidableAction(
+                          //   onPressed: (context){
+                          //     showTaskDialog(context,todo: todo);
+                          //   },
+                          //   icon: Icons.edit,
+                          //   label: 'Edit',
+                          //   backgroundColor: Colors.amber,
+                          //   foregroundColor: Colors.white,
+                          // ),
                           SlidableAction(
-                            onPressed: (context){
-                              showTaskDialog(context,todo: todo);
+                            onPressed: (context) {
+                              databaseService.updateTodoStatus(todo.id, true);
                             },
-                            icon: Icons.edit,
-                            label: 'Edit',
-                            backgroundColor: Colors.amber,
+                            icon: Icons.done,
+                            label: 'Mark as Completed',
+                            backgroundColor: Colors.green,
                             foregroundColor: Colors.white,
                           ),
+
+                        ]),
+                    endActionPane: ActionPane(
+                        motion: const DrawerMotion(),
+                        children: [
                           SlidableAction(
                             onPressed: (context) async {
                               await databaseService.deleteTodo(todo.id);
@@ -202,19 +214,7 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
                           ),
-                        ]),
-                    endActionPane: ActionPane(
-                        motion: const DrawerMotion(),
-                        children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          databaseService.updateTodoStatus(todo.id, true);
-                        },
-                        icon: Icons.done,
-                        label: 'Mark',
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
+
                     ]),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),

@@ -4,6 +4,8 @@ import 'package:to_do_with_firebase/database_service.dart';
 import 'package:to_do_with_firebase/note_model.dart';
 import 'package:to_do_with_firebase/pending_note_widget.dart';
 
+import 'notes_details_screen.dart';
+
 
 class NotesTab extends StatefulWidget {
   @override
@@ -106,7 +108,13 @@ class _NotesTabState extends State<NotesTab> {
         shape: const CircleBorder(),
         backgroundColor:Colors.grey.withOpacity(0.2),
         onPressed: (){
-        showTaskDialog(context );
+        //showTaskDialog(context );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NotesDetailScreen(note: null),
+            ),
+          );
         },
         child: const Icon(Icons.add,color: Colors.blue,size: 36,),),
     );

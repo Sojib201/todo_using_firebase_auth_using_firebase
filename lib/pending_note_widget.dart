@@ -50,7 +50,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                 TextField(
                   controller: descriptionController,
                   decoration: const InputDecoration(
-                      label: Text('Decription'),
+                      label: Text('Description'),
                       border: OutlineInputBorder()
                   ),
                 ),
@@ -159,8 +159,8 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                   );
                 },
                 child: Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
                     color: const Color(0xFF101010),
                     borderRadius: BorderRadius.circular(20),
@@ -181,18 +181,18 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                   ),
                   child: Slidable(
                     key: ValueKey(note.id),
-                    startActionPane: ActionPane(motion: const DrawerMotion(), children: [
-                      SlidableAction(
-                        onPressed: (context){
-                          showTaskDialog(context,note: note);
-                        },
-                        icon: Icons.edit,
-                        label: 'Edit',
-                        backgroundColor: Colors.amber,
-                        foregroundColor: Colors.white,
-                      ),
-
-                    ]),
+                    // startActionPane: ActionPane(motion: const DrawerMotion(), children: [
+                    //   SlidableAction(
+                    //     onPressed: (context){
+                    //       showTaskDialog(context,note: note);
+                    //     },
+                    //     icon: Icons.edit,
+                    //     label: 'Edit',
+                    //     backgroundColor: Colors.amber,
+                    //     foregroundColor: Colors.white,
+                    //   ),
+                    //
+                    // ]),
                     endActionPane: ActionPane(motion: const DrawerMotion(), children: [
                       SlidableAction(
                         onPressed: (context) async {
@@ -209,7 +209,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(note.title,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8)),),
+                          Text(note.title.isNotEmpty ? note.title : note.description,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8)),),
                           const SizedBox(height: 10,),
                           Text(
                             // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
