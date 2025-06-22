@@ -28,6 +28,18 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
     final amPm = dt.hour >= 12 ? 'PM' : 'AM';
     return '$hour:$minute $amPm';
   }
+  String _getFormattedDateTime(DateTime dt) {
+    final now = DateTime.now();
+    final difference = now.difference(dt);
+
+    if (difference.inHours < 24) {
+      // Show time only
+      return formatTime(dt);
+    } else {
+      // Show full date
+      return '${dt.day}/${dt.month}/${dt.year}';
+    }
+  }
 
 
   @override
@@ -59,9 +71,24 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
               final DateTime dt=todo.timeStamp.toDate();
               return Container(
                 margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10)
+                  color: const Color(0xFF1E1E1E),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.8),
+                      offset: const Offset(6, 6),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.6),
+                      offset: const Offset(-6, -6),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
                 ),
                 child: Slidable(
                   key: ValueKey(todo.id),
@@ -72,8 +99,8 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                       },
                       icon: Icons.done,
                       label: 'Mark as Unread',
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.yellowAccent,
+                      foregroundColor: Colors.black,
                     ),
                   ]),
                   endActionPane: ActionPane(motion: const DrawerMotion(), children: [
@@ -89,11 +116,23 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
                   ]),
 
                   child: ListTile(
-                    title: Text(todo.title,style:  TextStyle(fontSize: 22,color: Colors.white.withOpacity(0.9),decoration: TextDecoration.lineThrough),),
-                    subtitle: Text(todo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),decoration: TextDecoration.lineThrough),),
-                    trailing: Text(
-                      '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
-                      style:  TextStyle(color: Colors.white.withOpacity(0.9)),),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(todo.title,style:  TextStyle(fontSize: 19,color: Colors.white.withOpacity(0.8)),),
+                        const SizedBox(height: 10,),
+                        Text(
+                          // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                          _getFormattedDateTime(dt),
+                          style: TextStyle(color: Colors.white.withOpacity(0.5)),),
+                      ],
+                    ),
+                    //subtitle: Text(maxLines:2,todo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),),),
+                    // trailing: Text(
+                    //   '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                    //   //_getFormattedDateTime(dt),
+                    //   style: TextStyle(color: Colors.white.withOpacity(0.8)),),
                   ),
                 ),
               );

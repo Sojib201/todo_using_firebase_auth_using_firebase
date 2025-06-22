@@ -3,12 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:to_do_with_firebase/auth_service.dart';
 import 'package:to_do_with_firebase/login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final AuthService auth = AuthService();
+
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
+  bool obscurePassword = true;
 
   void showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -53,13 +62,23 @@ class RegisterScreen extends StatelessWidget {
 
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: obscurePassword,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        obscurePassword = !obscurePassword;
+                      });
+                    },
+                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   filled: true,
                   fillColor: Colors.white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
               const SizedBox(height: 24),
@@ -78,6 +97,16 @@ class RegisterScreen extends StatelessWidget {
 
                     User? user = await auth.registerWithEmailPassword(email, password);
                     if (user != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Registration Successful'),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+
+                      await Future.delayed(const Duration(seconds: 1));
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (_) => LoginScreen()),

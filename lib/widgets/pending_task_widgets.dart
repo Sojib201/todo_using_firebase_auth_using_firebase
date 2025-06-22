@@ -161,8 +161,22 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                    color: Colors.white12.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(18)
+                    color: const Color(0xFF1E1E1E),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.8),
+                        offset: const Offset(6, 6),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.6),
+                        offset: const Offset(-6, -6),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
                   child: Slidable(
                     key: ValueKey(todo.id),
@@ -202,6 +216,7 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                       ),
                     ]),
                     child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -214,9 +229,9 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                         ],
                       ),
                       //subtitle: Text(maxLines:2,todo.description,style:  TextStyle(color: Colors.white.withOpacity(0.7),),),
-                      // subtitle: Text(
-                      //   // '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
-                      //   _getFormattedDateTime(dt),
+                      // trailing: Text(
+                      //    '${dt.day}/${dt.month}/${dt.year}, ${formatTime(dt)}',
+                      //   //_getFormattedDateTime(dt),
                       //   style: TextStyle(color: Colors.white.withOpacity(0.8)),),
                     ),
                   ),

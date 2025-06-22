@@ -218,7 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           title: Text(
             _currentIndex==0?'Notes':'Todo',
             style: const TextStyle(
