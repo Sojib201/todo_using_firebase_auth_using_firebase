@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../todo_model.dart';
 import '../database_service.dart';
 import 'note_model.dart';
 

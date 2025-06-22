@@ -32,7 +32,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
       return AlertDialog(
         title: Text(
           note==null?'Add Task': 'Edit Task',
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
         content: SingleChildScrollView(
           child:SizedBox(
@@ -41,15 +41,15 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       label: Text('Title'),
                       border: OutlineInputBorder()
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 TextField(
                   controller: descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       label: Text('Decription'),
                       border: OutlineInputBorder()
                   ),
@@ -62,7 +62,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
           TextButton(
             onPressed: (){
               Navigator.pop(context);
-            }, child: Text('Cancel'),
+            }, child: const Text('Cancel'),
           ),
           ElevatedButton(
               onPressed: (){
@@ -140,6 +140,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
 
           }
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: notes.length,
@@ -161,7 +162,7 @@ class _PendingNoteWidgetsState extends State<PendingNoteWidgets> {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
+                    color: const Color(0xFF101010),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(

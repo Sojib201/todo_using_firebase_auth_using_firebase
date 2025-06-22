@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do_with_firebase/auth_service.dart';
 import 'package:to_do_with_firebase/database_service.dart';
-import 'package:to_do_with_firebase/login_screen.dart';
 import 'package:to_do_with_firebase/note_model.dart';
 import 'package:to_do_with_firebase/pending_note_widget.dart';
 
@@ -42,7 +40,7 @@ class _NotesTabState extends State<NotesTab> {
                 TextField(
                   controller: descriptionController,
                   decoration: const InputDecoration(
-                    label: Text('Decription'),
+                    label: Text('Description'),
                     border: OutlineInputBorder()
                   ),
                 ),

@@ -140,6 +140,7 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
 
           }
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: todos.length,
@@ -161,7 +162,7 @@ class _PendingTaskWidgetsState extends State<PendingTaskWidgets> {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
+                    color: const Color(0xFF101010),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
