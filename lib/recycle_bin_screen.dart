@@ -24,7 +24,6 @@ class _RecycleBinScreenState extends State<RecycleBinScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-     // backgroundColor: const Color(0xFF121212),
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,

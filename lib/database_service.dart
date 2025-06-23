@@ -73,7 +73,8 @@ class DatabaseService {
           title: doc['title'] ?? '',
           description: doc['description'] ?? '',
           completed: doc['completed'] ?? false,
-          timeStamp: doc['createdAt'] ?? '');
+          //timeStamp: doc['createdAt'] ?? '');
+          timeStamp: doc['createdAt'] ?? Timestamp.now(),);
     }).toList();
   }
 

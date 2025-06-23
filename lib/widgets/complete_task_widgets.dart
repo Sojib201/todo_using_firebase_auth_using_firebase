@@ -33,10 +33,8 @@ class _CompleteTaskWidgetsState extends State<CompleteTaskWidgets> {
     final difference = now.difference(dt);
 
     if (difference.inHours < 24) {
-      // Show time only
       return formatTime(dt);
     } else {
-      // Show full date
       return '${dt.day}/${dt.month}/${dt.year}';
     }
   }

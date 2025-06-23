@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do_with_firebase/auth_service.dart';
 import 'package:to_do_with_firebase/database_service.dart';
-import 'package:to_do_with_firebase/login_screen.dart';
 import 'package:to_do_with_firebase/recycle_bin_screen.dart';
 import 'package:to_do_with_firebase/todo_model.dart';
 import 'package:to_do_with_firebase/widgets/complete_task_widgets.dart';
@@ -107,110 +105,104 @@ class _TodoTabState extends State<TodoTab> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: screenWidth * 0.9,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1E1E),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.8),
-                      offset: const Offset(6, 6),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.6),
-                      offset: const Offset(-6, -6),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                  ],
+         // const SizedBox(height: 20),
+          Container(
+            width: screenWidth * 0.7,
+            height: 50,
+            decoration: BoxDecoration(
+              color: const Color(0xFF1E1E1E),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.8),
+                  offset: const Offset(6, 6),
+                  blurRadius: 10,
+                  spreadRadius: 1,
                 ),
-                child: Stack(
-                  children: [
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 10),
-                      curve: Curves.easeInOut,
-                      left: buttonIndex == 0 ? 0 : screenWidth * 0.45,
-                      top: 0,
-                      bottom: 0,
-                      child: Container(
-                        width: screenWidth * 0.45,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          //color: const Color(0xFF5A6AFF),
-                          color:  Colors.green,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blueAccent.withOpacity(0.2),
-                              blurRadius: 12,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () {
-                              setState(() {
-                                buttonIndex = 0;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 50,
-                              child: Text(
-                                'Pending',
-                                style: TextStyle(
-                                  color: buttonIndex == 0 ? Colors.white : Colors.white54,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () {
-                              setState(() {
-                                buttonIndex = 1;
-                              });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 50,
-                              child: Text(
-                                'Completed',
-                                style: TextStyle(
-                                  color: buttonIndex == 1 ? Colors.white : Colors.white54,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6),
+                  offset: const Offset(-6, -6),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 10),
+                  curve: Curves.easeInOut,
+                  left: buttonIndex == 0 ? 0 : screenWidth * 0.35,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: screenWidth * 0.35,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      //color: const Color(0xFF5A6AFF),
+                      color:  Colors.green,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueAccent.withOpacity(0.2),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        onTap: () {
+                          setState(() {
+                            buttonIndex = 0;
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50,
+                          child: Text(
+                            'Pending',
+                            style: TextStyle(
+                              color: buttonIndex == 0 ? Colors.white : Colors.white54,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        onTap: () {
+                          setState(() {
+                            buttonIndex = 1;
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50,
+                          child: Text(
+                            'Completed',
+                            style: TextStyle(
+                              color: buttonIndex == 1 ? Colors.white : Colors.white54,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-
           const SizedBox(height: 10),
           Expanded(
             child: SingleChildScrollView(

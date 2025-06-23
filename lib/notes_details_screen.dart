@@ -183,11 +183,10 @@ class _NotesDetailScreenState extends State<NotesDetailScreen> {
     String desc = descriptionController.text.trim();
 
     if (widget.note == null) {
-      if (desc.isNotEmpty) {
+      if (title.isNotEmpty||desc.isNotEmpty) {
         _databaseService.addNote(title, desc);
       }
     } else {
-      // Prevent update if document was likely deleted (check for empty ID or handle errors)
       if (widget.note!.id.isNotEmpty) {
         if (title.isEmpty && desc.isEmpty) {
           _databaseService.deleteNote(widget.note!.id);
@@ -299,23 +298,6 @@ class _NotesDetailScreenState extends State<NotesDetailScreen> {
                   ),
                 ),
               const SizedBox(height: 10),
-              // Expanded(
-              //   child: TextField(
-              //     controller: descriptionController,
-              //     maxLines: null,
-              //     expands: true,
-              //     style: const TextStyle(color: Colors.white, fontSize: 16),
-              //     decoration: InputDecoration(
-              //       labelText: 'Description',
-              //       labelStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-              //       filled: true,
-              //       fillColor: const Color(0xFF16213E),
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(12),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               TextField(
                 maxLines: null,
                 controller: descriptionController,
@@ -335,7 +317,6 @@ class _NotesDetailScreenState extends State<NotesDetailScreen> {
           ),
         ),
       ),
-
     );
   }
 }

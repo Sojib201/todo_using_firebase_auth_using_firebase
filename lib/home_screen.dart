@@ -221,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            _currentIndex==0?'Notes':'Todo',
+            _currentIndex==0?'Notes':'To-do',
             style: const TextStyle(
             color: Colors.white,
             fontSize: 22
